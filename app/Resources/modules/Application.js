@@ -235,7 +235,7 @@ Project.Application = function()
     if (shortLink == undefined)
       shortLink = false;
 
-    return (!shortLink ? 'http://' : '') + "findme.ws?" + self.messenger.getChannel();
+    return (!shortLink ? 'http://' : '') + "findme.ws/" + self.messenger.getChannel();
   }
 
   /**

@@ -11,7 +11,12 @@ var findme = function()
 
   var construct = function()
   {
-    channel = window.location.search.substr(1);
+    // get channel
+
+    channel = window.location.pathname.substr(1);
+
+    if (channel.length == 0)
+      channel = window.location.search.substr(1);
 
     // get cliend uid
 
