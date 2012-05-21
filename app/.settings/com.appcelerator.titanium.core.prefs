@@ -1,4 +1,8 @@
 eclipse.preferences.version=1
+provisioning_profiles/development/A9728C67-AB81-406A-B7FE-5400FC8517B1/appid=*
+provisioning_profiles/development/A9728C67-AB81-406A-B7FE-5400FC8517B1/filepath=/Users/misha/Library/MobileDevice/Provisioning Profiles/A9728C67-AB81-406A-B7FE-5400FC8517B1.mobileprovision
+provisioning_profiles/development/A9728C67-AB81-406A-B7FE-5400FC8517B1/name=AdHoc Profile
+provisioning_profiles/development/A9728C67-AB81-406A-B7FE-5400FC8517B1/uuid=A9728C67-AB81-406A-B7FE-5400FC8517B1
 provisioning_profiles/development/C2DC462E-1C1A-433A-AFBF-1B3D0D6E9E9D/appid=*
 provisioning_profiles/development/C2DC462E-1C1A-433A-AFBF-1B3D0D6E9E9D/filepath=/Users/misha/Library/MobileDevice/Provisioning Profiles/C2DC462E-1C1A-433A-AFBF-1B3D0D6E9E9D.mobileprovision
 provisioning_profiles/development/C2DC462E-1C1A-433A-AFBF-1B3D0D6E9E9D/name=iOS Team Provisioning Profile\: *
