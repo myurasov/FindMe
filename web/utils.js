@@ -2,7 +2,6 @@ var Utils = {
   timeAgo: function(distanceMillis)
   {
     var _settings = {
-      refreshMillis: 10,
       allowFuture: false,
       strings: {
         prefixAgo: "",
@@ -43,11 +42,8 @@ var Utils = {
     var days = hours / 24;
     var years = days / 365;
 
-    var _substitute = function(stringOrFunction, number) {
-      var string = typeof stringOrFunction == "function"
-      ? stringOrFunction(number, distanceMillis) : stringOrFunction;
-      var value = ($l.numbers && $l.numbers[number]) || number;
-      return string.replace(/%d/i, value);
+    var _substitute = function(string, number) {
+      return string.replace(/%d/i, number);
     }
 
     var words =
