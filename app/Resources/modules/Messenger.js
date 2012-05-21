@@ -54,10 +54,6 @@ Project.Messenger = function(channel)
     pubnub.history(
       {channel: channel + '_feedback', limit: 1},
       function(messages) {
-
-        Ti.API.info('got feedback history'); // xxx
-        Ti.API.info(messages.length); // xxx
-
         if (messages.length > 0)
         {
           if (lastMessage == null || messages[0]._timestamp > lastMessage._timestamp)
@@ -82,10 +78,6 @@ Project.Messenger = function(channel)
     pubnub.subscribe({
       channel: channel + '_feedback',
       callback: function(message) {
-
-        Ti.API.info('got feedback'); // xxx
-        Ti.API.info(message); // xxx
-
         lastMessage = message;
         self.fireEvent("feedbackMessage", {
           message: message
