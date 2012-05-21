@@ -5,8 +5,7 @@ Project.Application = function()
   var navHostWindow;
   var settingsWindow;
 
-  var lastLocationEvent = null;
-
+  self.lastLocationEvent = null;
   self.mainWindow = null;
   self.channel = null;
   self.bgService = null;
@@ -56,6 +55,9 @@ Project.Application = function()
     // Events
 
     self.messenger.addEventListener("ready", function(e){
+      // restore watchers
+      self.mainWindow.restoreWatchers();
+
       // start geolocation
       self.startGeolocation();
     });
@@ -188,9 +190,9 @@ Project.Application = function()
    */
   self.publishLastLocation = function()
   {
-    if (lastLocationEvent != null)
-      self.publishLocation(lastLocationEvent.coords.latitude,
-        lastLocationEvent.coords.longitude);
+    if (self.lastLocationEvent != null)
+      self.publishLocation(self.lastLocationEvent.coords.latitude,
+        self.lastLocationEvent.coords.longitude);
   }
 
   /**
@@ -200,7 +202,7 @@ Project.Application = function()
   {
     if (e.success)
     {
-      lastLocationEvent = e;
+      self.lastLocationEvent = e;
 
       self.publishLocation(
         e.coords.latitude,
@@ -257,11 +259,13 @@ Project.Application = function()
 
     if (emailDialog.isSupported())
     {
-      emailDialog.toRecipients = [email];
+      if (email !== undefined)
+        emailDialog.toRecipients = [email];
+
       emailDialog.subject = "Find me!";
       emailDialog.html = true;
 
-      var body = "Hi, " + name + "!<br><br>Follow my location @ <br>" +
+      var body = (name === undefined ? '' : "Hi, " + name + "!<br><br>") + "Follow my location @ <br>" +
       "<a href='" + self.getLink() + "'>" + self.getLink(true) + "</a><br><br>" +
       "Powered by <a href='" + self.getiTunesUrl() + "'>FindMe! App</a>";
 
@@ -275,8 +279,8 @@ Project.Application = function()
   }
 
   /**
- * Send SMS
- */
+  * Send SMS
+  */
   self.sendSms = function(phone)
   {
     var smsDialog = omorandi.createSMSDialog();
@@ -284,7 +288,10 @@ Project.Application = function()
     if (smsDialog.isSupported())
     {
       var body = "Follow my location @ " + self.getLink();
-      smsDialog.recipients = [phone];
+
+      if (phone !== undefined)
+        smsDialog.recipients = [phone];
+
       smsDialog.messageBody = body;
       smsDialog.open({
         animated: true
