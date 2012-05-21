@@ -1,0 +1,61 @@
+body, html {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: "Myriad Pro", "Trebuchet MS", "Verdana", sans-serif;
+}
+
+#map {
+  height: 100%;
+  width: 100%;
+}
+
+#header {
+  padding: 10px 0px 10px 0px;
+  font-size: 20px;
+  position: fixed;
+  z-index: 1;
+  background-color: white;
+  opacity: 0.92;
+  box-shadow: 0px 0px 15px #333;
+  width: 100%;
+}
+
+#address {
+  float: left;
+  margin-left: 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#ago {
+  float: right;
+  margin-right: 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: gray;
+}
+
+#dist {
+  margin-right: 7px;
+  display: inline-block;
+  padding: 3px 5px 3px 5px;
+  background-color: #EEE;
+  border-radius: 3px;
+  color: #444;
+}
+
+@media only screen
+and (min-device-width : 320px)
+and (max-device-width : 480px) {
+  #address {
+    float: none;
+    font-size: 18px;
+  }
+  #ago {
+    float: none;
+    margin-right: 0px;
+    margin-left: 10px;
+    font-size: 12px;
+  }
+}

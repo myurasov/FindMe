@@ -1,0 +1,3 @@
+ad:iphone_Iequ4kaem1aexun8 - no ads flag
+ad:iphone_bottom, ad:iphone_top, ad:ipad_bottom, ad:ipad_top
+product:remove_ads - preferred product

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Find me!</title>
+    <meta name="viewport" content="initial-scale=1,user-scalable=no,width=device-width">
+    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+    <script type="text/javascript" src="utils.js"></script>
+    <script type="text/javascript" src="main.js"></script>
+    <link type="text/css" rel="stylesheet" href="main.css">
+  </head>
+  <body onload="new findme()">
+    <div pub-key="pub-a29834f0-2cd0-40a3-b0e4-5564a7c38df4" sub-key="sub-e4cc5bb3-9372-11e1-b75e-09816d97dcf7" ssl="off" origin="pubsub.pubnub.com" id="pubnub"></div>
+    <script type="text/javascript" src="pubnub-3.1.js"></script>
+    <div id="header">
+      <div id="address">Locating...</div>
+      <div id="ago"></div>
+    </div>
+    <div id="map"></div>
+  </body>
+</html>

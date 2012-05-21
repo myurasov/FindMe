@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <div pub-key="pub-a29834f0-2cd0-40a3-b0e4-5564a7c38df4"
+     sub-key="sub-e4cc5bb3-9372-11e1-b75e-09816d97dcf7"
+     ssl="off" origin="pubsub.pubnub.com" id="pubnub"></div>
+
+    <script type="text/javascript" src="pubnub-3.1.min.js"></script>
+    <script type="text/javascript">
+      var PubnubBridge = function()
+      {
+        var self = this;
+        var channel;
+        var clientId;
+
+        self.init = function()
+        {
+          channel = 'testChannel'//self._createUID(5);
+
+          Ti.App.addEventListener('app:onLocation', function(e) {
+            PUBNUB.publish({
+              channel  : channel,
+              message  : e,
+              callback : function(info) {
+                Ti.API.info('pubnub: published'); // xxx
+                Ti.API.info(info); // xxx
+              }
+            });
+          });
+
+          self._subscribeToFeedback();
+
+          // notify app when init is done
+          Ti.App.fireEvent('pb:initDone', {
+            channel: channel
+          });
+        }
+
+        self._subscribeToFeedback = function()
+        {
+          // subscribe to feedback channel
+          PUBNUB.subscribe({
+            channel  : channel + '_feedback',
+            callback : function(message) {
+
+              Ti.API.info('pubnub: got message'); // xxx
+              Ti.API.info(message); // xxx
+
+//              Ti.App.fireEvent('pb:feedback', {
+//                clientId: m[0].data.content.clientId,
+//                lat: m[0].data.content.lat,
+//                lon: m[0].data.content.lon
+//              });
+            },
+            error    : function(e) {
+              Ti.API.info('pubnub: subscribe error'); // xxx
+              Ti.API.info(e); // xxx
+            }
+          });
+        }
+
+        self._publish = function(message)
+        {
+          if (channel != null)
+          {
+            PUBNUB.publish({
+              channel  : channel,
+              message  : message,
+              callback : function(info) {
+                Ti.API.info('pubnub: published'); // xxx
+                Ti.API.info(info); // xxx
+              }
+            });
+          }
+        }
+
+        self._createUID = function(length)
+        {
+          var pattern = "0123456789abcdefghijklmnopqrstuvwxyz";
+          var uid = "";
+
+          for (var i = 0; i < length; i++)
+          {
+            var c = pattern.charAt(Math.random() * pattern.length);
+            uid += c;
+          }
+
+          return uid;
+        }
+      }
+
+      function init()
+      {
+        var pubnubBridge = new PubnubBridge();
+        pubnubBridge.init();
+      }
+    </script>
+  </head>
+  <body onload="init()">
+  </body>
+</html>

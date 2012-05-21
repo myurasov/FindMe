@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script type="text/javascript" src="spire.io.bundle.js"></script>
+    <script type="text/javascript">
+      var sb = {
+        spire: null,
+        channel: null
+      };
+
+      /**
+       * Create channel name
+       */
+      sb.createChannelName = function(length)
+      {
+        var pattern = "0123456789abcdefghijklmnopqrstuvwxyz";
+        var id = "";
+
+        for (var i = 0; i < length; i++)
+        {
+          var c = pattern.charAt(Math.random() * pattern.length);
+          id += c;
+        }
+
+        return id;
+      }
+
+      /**
+       * Emits "sb:initDone{channel ...}" event when ready
+       */
+      sb.init = function()
+      {
+        var Spire = require('./spire.io.js');
+        sb.spire = new Spire({secret: 'Ac-5u7V8SNMcy3UzKVvzfV87Q-gdIL'});
+
+        Ti.App.addEventListener('app:onLocation', function(e){
+          sb.publish({
+            lat: e.location.lat,
+            lon: e.location.lon,
+            address: e.location.address,
+            version: Ti.App.getVersion()
+          });
+        });
+
+        sb.channel = sb.createChannelName(5);
+
+        // subscribe to feedback channel
+        sb.spire.subscribe(sb.channel + '_feedback', {limit: 1, orderBy: 'asc'}, function(m){
+          Ti.App.fireEvent('sb:feedback', {
+            clientId: m[0].data.content.clientId,
+            lat: m[0].data.content.lat,
+            lon: m[0].data.content.lon
+          });
+        });
+
+        Ti.App.fireEvent('sb:initDone', {channel: sb.channel});
+      }
+
+      sb.publish = function(message)
+      {
+        if (sb.channel != null)
+        {
+          // 'message' can be a string or any JSON-serilazable object.
+          sb.spire.publish(sb.channel, message, function (err) {
+            if (!err) {
+              // publishing done
+            }
+          });
+        }
+      }
+    </script>
+  </head>
+  <body onload="sb.init()">
+  </body>
+</html>

@@ -1,0 +1,16 @@
+{"type":"channel","name":"foo","limit":0,"url":"https://api.spire.io/account/Ac-iz4F/channel/Ch-izYi","capabilities":{"get":"GsJGyT9EICZangszfryNxQ","delete":"NpzYGdbhIEVLBrBj0jRCFXw","publish":"c1L474Tu5K8oEvzXzYQuqw"},"resources":{"subscriptions":{"url":"https://api.spire.io/account/Ac-iz4F/channel/Ch-izYi/subscriptions","capabilities":{"get_subscriptions":"jalOEVrDChFi5sMmciCNUA"}}}}
+
+"description.res...bilities.create"	"2MKfiYhcCZrlmlcmbhYALrw"	
+"description.sch...ption.mediaType"	"application/vnd.spire-io.subscription+json;version=1.0"	
+"description.sch...annel.mediaType"	"application/vnd.spire-io.channel+json;version=1.0"	
+"this.status"	406	
+"description.res...bscriptions.url"	"https://api.spire.io/account/Ac-iz4F/subscriptions"	
+Add new expression	
+
+
+APIS:
+
+Citygrig geocoding
+Spire.io - realtime messaging
+
+No server part at all!
