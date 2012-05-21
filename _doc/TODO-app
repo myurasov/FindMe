@@ -4,21 +4,26 @@ v* Test pins movement using ips sim
 v* Android web app compatibility
 v* Change color
 * Hashes and hash change event
-* Distance
+v* Distance
 v* Reviews!!
 v* Update 1x icons
 v* Geolocation via getCurrentPosition() ?
 v* Label to the top of the map
 v* Click on the address centers map
 
-* Confirmation before resetting the link
+v* Confirmation before resetting the link
 * No map mode
 * Way to delete watchers' pins
-* Make links like findme.ws/id
+v* Make links like findme.ws/id
+* Identification of clients
+v* Save/restore watchers list
+v* Options to share by SMS/Email/Contact
+v* Only active annotation is updated
 
 BUGS:
 
 v* Background service does not start on first install
-v*Link is not clickable on device
+v* Link is not clickable on device
 v* Location is not updated frequent enough from device
 v* Some feedback messages are not received by device
+v* Double click on share prevents contact list from closing
