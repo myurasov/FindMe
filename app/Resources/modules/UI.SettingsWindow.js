@@ -68,8 +68,10 @@ Project.UI.createSettingsWindow = function()
 
     var s2 = Ti.UI.createTableViewSection({
       footerView: Project.UI.createHelpLabel({
-        text: 'Turns screen off when iPhone is close to any surface. Used to save power.',
-        lines: 2
+        text: 'Turns screen off when iPhone is close to any surface. ' +
+          'Map update is also paused. ' +
+          'Used to save power and network traffic.',
+        lines: 3
       })
     });
 
