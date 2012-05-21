@@ -10,7 +10,7 @@
     <sdk-version>2.0.1.GA2</sdk-version>
     <id>me.yurasov.findme</id>
     <name>FindMe</name>
-    <version>1.0</version>
+    <version>1.1</version>
     <publisher>mym</publisher>
     <url>http://apps.yurasov.me/</url>
     <description>Share your real-time location with anyone and know where they are too!</description>
@@ -35,6 +35,5 @@
     <android xmlns:android="http://schemas.android.com/apk/res/android"/>
     <modules>
         <module platform="iphone" version="0.2">com.omorandi</module>
-        <module platform="commonjs" version="2.0.1">ti.cloud</module>
     </modules>
 </ti:app>
