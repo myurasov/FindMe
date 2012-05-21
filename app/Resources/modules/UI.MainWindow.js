@@ -14,12 +14,15 @@ Project.UI.createMainWindow = function()
   var annotations = [];
   var labelHost;
   var hud;
+  var settingsButton;
+  var footerView;
+  var refresh;
 
   var lastLat = null, lastLon = null;
 
   function _init()
   {
-    var settingsButton = Ti.UI.createButton({
+    settingsButton = Ti.UI.createButton({
       image:'images/settings-button.png'
     });
 
@@ -158,7 +161,7 @@ Project.UI.createMainWindow = function()
       left: (tableView.width - 180) / 2
     });
 
-    var footerView = Ti.UI.createView({
+    footerView = Ti.UI.createView({
       height: urlLabel.height,
       width: urlLabel.width
     });
@@ -167,7 +170,7 @@ Project.UI.createMainWindow = function()
 
     // refresh
 
-    var refresh = Ti.UI.createView({
+    refresh = Ti.UI.createView({
       backgroundImage: 'images/refresh.png',
       height: 20,
       width: 39,
@@ -187,6 +190,16 @@ Project.UI.createMainWindow = function()
 
     // Events
 
+    _initEvents();
+
+    // Misc
+
+    // update ago on annotations
+    setInterval(updateAnnotation, 1000);
+  }
+
+  function _initEvents()
+  {
     Ti.App.addEventListener("proximity", function(e){
       if (e.state) updateMapRegion();
     });
@@ -223,109 +236,329 @@ Project.UI.createMainWindow = function()
 
     refresh.addEventListener("click", resetLink);
 
-    shareRow.addEventListener("click", function(e){
-      var propSelected = false;
+    shareRow.addEventListener("click", shareLocation);
 
-      hud.showHud();
+    mapView.addEventListener("click", annotationClicked);
+  }
 
-      Ti.Contacts.showContacts({
-        animated: true,
+  /**
+   * Get distance from current position to coordinate
+   */
+  function getDistanceTo(lat, lon)
+  {
+    var distance = '';
+    var curLocation = Project.application.lastLocationEvent;
 
-        fields: ["email", "phone"],
+    if (curLocation !== null)
+    {
+      var units = Titanium.Platform.locale.indexOf('en') == -1 ? 'km' : 'mi';
 
-        selectedProperty: function(e) {
-          if (!propSelected)
-          {
-            propSelected = true;
+      distance = Project.Utils.geoDistance(
+        {lat: curLocation.coords.latitude,
+          lon: curLocation.coords.longitude},
+        {lat: lat, lon: lon},
+        units
+      );
 
-            if (e.property == "email")
-            {
-              _.delay(function(){
-                _.delay(function(){hud.hideHud()}, 1000);
-                Project.application.sendEmail(e.person.firstName, e.value);
-                propSelected = false;
-              }, 750)
-            }
-            else if (e.property == "phone")
-            {
-              _.delay(function(){
-                _.delay(function(){hud.hideHud()}, 1000);
-                Project.application.sendSms(e.value);
-                propSelected = false;
-              }, 750)
-            }
-          }
-        },
+      distance = Math.round(distance * 10) / 10;
+      distance = distance + ' ' + units;
+    }
 
-        cancel: function(){
-          hud.hideHud();
-          propSelected = false;
-        }
+    return distance;
+  }
+
+  var activeAnnotation = null;
+  //
+  function updateAnnotation()
+  {
+    if (activeAnnotation !== null)
+    {
+      // milliseconds ago
+
+      var ago = Date.now() -
+        Project.application.messenger.getClockDiff() -
+        activeAnnotation._timestamp;
+
+      ago = Project.Utils.timeAgo(ago);
+
+      // distance
+      var distance = getDistanceTo(activeAnnotation.latitude, activeAnnotation.longitude);
+      if (distance !== '') distance += ' away, ';
+
+      // subtitle
+      activeAnnotation.subtitle = distance + ago
+    }
+  };
+
+
+  var annotationClickedStarted = false;
+  var optionsDialog = null;
+  //
+  function annotationClicked(e)
+  {
+    if (e.source !== mapView)
+      return;
+
+    if (e.clicksource == 'pin')
+    {
+      activeAnnotation = e.annotation;
+
+      if (activeAnnotation.subtitle == '')
+        updateAnnotation();
+    }
+    else if (e.clicksource == null)
+    {
+      activeAnnotation = null;
+    }
+    else if (e.clicksource == 'rightButton')
+    {
+      if (annotationClickedStarted) return;
+
+      annotationClickedStarted = true;
+
+      var optionsDialogShown = false;
+      var optionsDialogAlreadyClosed = false;
+      var annotation = e.annotation;
+
+      // options dialog
+
+      optionsDialog = Titanium.UI.createOptionDialog({
+        title: annotation.title,
+        options: ["Open in Maps", "Delete", "Cancel"],
+        destructive: 1,
+        cancel: 2
       });
+
+      optionsDialog.addEventListener("click", function(e) {
+        optionsDialogAlreadyClosed = true;
+
+        if (e.index == 0)
+        {
+          Ti.Platform.openURL('http://maps.google.com/?q=' +
+            annotation.latitude + ',' + annotation.longitude);
+        }
+        else if (e.index == 1)
+        {
+          // remove annotation from map
+          mapView.removeAnnotation(annotation);
+
+          // set active annotation to null
+          activeAnnotation = null;
+
+          // ignore client uid
+
+          var ignoredUIDs = Project.Config.get('ignoredClientUIDs');
+
+          if (ignoredUIDs.indexOf(annotation.clientUID) === -1)
+            ignoredUIDs.push(annotation.clientUID);
+
+          Project.Config.set('ignoredClientUIDs', ignoredUIDs).save();
+
+          // set annotation to null
+          annotations[annotation._index] = null;
+
+          // remove saved watcher
+          var w = Project.Config.get('watchers');
+          w[annotation._index] = null;
+          Project.Config.set('watchers', w).save();
+
+          // update map regon
+          updateMapRegion();
+        }
+
+        annotationClickedStarted = false;
+      });
+
+      if (Project.application.lastLocationEvent !== null)
+      {
+        // set progress spinner
+        annotation.rightButton = Titanium.UI.iPhone.SystemButton.SPINNER;
+
+        // try to show dialog with empty adress first
+
+        _.delay(function(){
+          if (!optionsDialogShown)
+          {
+            optionsDialog.show();
+            annotation.rightButton = -13;
+          }
+        }, 1000);
+
+        // resolve address
+        Project.Utils.fetchAddress(annotation.latitude, annotation.longitude, function(address){
+          if (!optionsDialogAlreadyClosed)
+          {
+            optionsDialogShown = true;
+            annotation.rightButton = -13;
+            optionsDialog.setTitle(annotation.title + "\n\n" + address);
+            optionsDialog.hide();
+            optionsDialog.show();
+          }
+        });
+      }
+      else
+      {
+        optionsDialog.show();
+      }
+    }
+  }
+
+  function shareLocation()
+  {
+    var optionsDialog = Titanium.UI.createOptionDialog({
+      title: 'Share',
+      options: ['Select Contact', 'Email', 'SMS', 'Cancel'],
+      cancel: 3
     });
 
-    // Misc
-
-    // update ago on annotations
-    setInterval(function(){
-      for (var a = 0; a < annotations.length; a++)
+    optionsDialog.addEventListener("click", function(e){
+      if (e.index == 0)
       {
-        // milliseconds ago
-        var ago = Date.now() -
-        Project.application.messenger.getClockDiff() -
-        annotations[a]._timestamp;
-
-        annotations[a].subtitle = Project.Utils.timeAgo(ago);
+        shareWithContact();
       }
-    }, 1000);
+      else if (e.index == 1)
+      {
+        Project.application.sendEmail();
+      }
+      else if (e.index == 2)
+      {
+        Project.application.sendSms();
+      }
+    });
+
+    optionsDialog.show();
+  }
+
+  var contactsShown = false;
+  //
+  function shareWithContact()
+  {
+    if (contactsShown) return;
+
+    contactsShown = true;
+    var propSelected = false;
+
+    hud.showHud();
+
+    Ti.Contacts.showContacts({
+      animated: true,
+
+      fields: ["email", "phone"],
+
+      selectedProperty: function(e) {
+        if (!propSelected)
+        {
+          propSelected = true;
+
+          if (e.property == "email")
+          {
+            _.delay(function(){
+              _.delay(function(){hud.hideHud()}, 1000);
+              Project.application.sendEmail(e.person.firstName, e.value);
+              propSelected = false;
+              contactsShown = false;
+            }, 750)
+          }
+          else if (e.property == "phone")
+          {
+            _.delay(function(){
+              _.delay(function(){hud.hideHud()}, 1000);
+              Project.application.sendSms(e.value);
+              propSelected = false;
+              contactsShown = false;
+            }, 750)
+          }
+        }
+      },
+
+      cancel: function(){
+        hud.hideHud();
+        propSelected = false;
+        contactsShown = false;
+      }
+    });
   }
 
   /**
    * Reset link
    */
-  var resetLink = function()
+  function resetLink()
   {
-    // new channel
-    Project.Config.set('channel', Project.Utils.createUID(7)).save();
+    var alertBox = Titanium.UI.createAlertDialog({
+      title: Ti.App.getName(),
+      message: "Update the sharing link?",
+      buttonNames: ['Update', 'Keep']
+    });
 
-    // set new channel
-    Project.application.messenger.setChannel(Project.Config.get('channel'));
+    alertBox.show();
 
-    // update link
-    urlLabel.setText(Project.application.getLink(true));
+    alertBox.addEventListener("click", function(e){
+      if (e.index == 0)
+      {
+        // new channel
+        Project.Config.set('channel', Project.Utils.createUID(7)).save();
 
-    // reset location publish interval
-    Project.application.publishLocation.reset();
+        // set new channel
+        Project.application.messenger.setChannel(Project.Config.get('channel'));
 
-    // update location
-    Project.application.updateLocation();
-    Project.application.publishLastLocation();
+        // update link
+        urlLabel.setText(Project.application.getLink(true));
 
-    // reset annotations
-    annotations = [];
-    mapView.setAnnotations(annotations);
+        // reset location publish interval
+        Project.application.publishLocation.reset();
+
+        // update location
+        Project.application.updateLocation();
+        Project.application.publishLastLocation();
+
+        // reset annotations
+        annotations = [];
+        mapView.setAnnotations(annotations);
+
+        // reset saved watchers
+        Project.Config.set('watchers', []);
+
+        // reset ignored annotations
+        Project.Config.set('ignoredClientUIDs', []);
+
+        // save config
+        Project.Config.save();
+      }
+    });
   }
 
   /**
    * Feedback message arrived
    */
-  var onFeedbackMessage = function(e)
+  function onFeedbackMessage(e)
   {
-    for (var a = 0; a < annotations.length; a++)
+    if (Project.Config.get('ignoredClientUIDs').indexOf(e.message.clientUID) !== -1)
+      return;
+
+    var a = -1;
+    var annotationExists = false;
+
+    for (a in annotations)
     {
-      if (annotations[a].clientUID == e.message.clientUID)
+      if (annotations[a] !== null && annotations[a].clientUID == e.message.clientUID)
+      {
+        annotationExists = true;
         break;
+      }
     }
 
-    if (undefined == annotations[a])
+    if (!annotationExists)
     {
       // create annotation
+      a++;
 
       var colors = [
         Titanium.Map.ANNOTATION_GREEN,
         Titanium.Map.ANNOTATION_PURPLE,
         Titanium.Map.ANNOTATION_RED,
       ];
+
+      var num = Project.Utils.count(annotations);
 
       annotations[a] = Titanium.Map.createAnnotation({
         latitude: e.message.lat,
@@ -335,10 +568,29 @@ Project.UI.createMainWindow = function()
         pincolor: colors[a % 3],
         animate: true,
         clientUID: e.message.clientUID,
-        _timestamp: e.message._timestamp
+        _timestamp: e.message._timestamp,
+        rightButton: -13,//Titanium.UI.iPhone.systemButton.INFO_LIGHT,
+        _index: a
       });
 
-      mapView.setAnnotations(annotations);
+      // save watchers
+
+      var w = Project.Config.get('watchers');
+
+      w[a] = {
+        latitude: annotations[a].latitude,
+        longitude: annotations[a].longitude,
+        title: annotations[a].title,
+        pincolor: annotations[a].pincolor,
+        clientUID: annotations[a].clientUID,
+        _timestamp: annotations[a]._timestamp
+      };
+
+      Project.Config.set('watchers', w).save();
+
+      //
+
+      mapView.setAnnotations(filteredAnnotations());
     }
     else
     {
@@ -351,11 +603,24 @@ Project.UI.createMainWindow = function()
     updateMapRegion();
   }
 
+  function filteredAnnotations()
+  {
+    var filtered = [];
+
+    for (var a in annotations)
+    {
+      if (annotations[a] !== null)
+        filtered.push(annotations[a]);
+    }
+
+    return filtered;
+  }
+
 
   /**
    * Update map region
    */
-  var updateMapRegion = function()
+  function updateMapRegion()
   {
     if (lastLon === null || lastLat === null) return;
     if (Titanium.App.proximityState) return;
@@ -375,8 +640,16 @@ Project.UI.createMainWindow = function()
 
       var points = [[lastLon, lastLat]];
 
-      for (var a = 0; a < annotations.length; a++)
-        points.push([annotations[a].longitude, annotations[a].latitude]);
+      for (var a in annotations)
+      {
+        if (annotations[a] !== null)
+        {
+          points.push(
+            [annotations[a].longitude,
+            annotations[a].latitude]
+          );
+        }
+      }
 
       var box = Project.Utils.boundingRect(points);
 
@@ -401,7 +674,43 @@ Project.UI.createMainWindow = function()
 
   var _updateMapRegion = mym.Utils.dejitter(updateMapRegion, 3000);
 
+  //
+
   _init();
+
+  /**
+   * Restore watchers' pins
+   */
+  view.restoreWatchers = function()
+  {
+    var watchers = Project.Config.get('watchers');
+
+    for (var w in watchers)
+    {
+      if (watchers[w] !== null)
+      {
+        annotations[w] = Titanium.Map.createAnnotation({
+          latitude: watchers[w].latitude,
+          longitude: watchers[w].longitude,
+          title: watchers[w].title,
+          subtitle: '',
+          pincolor: watchers[w].pincolor,
+          animate: true,
+          clientUID: watchers[w].clientUID,
+          _timestamp: watchers[w]._timestamp,
+          rightButton: -13,//Titanium.UI.iPhone.systemButton.INFO_LIGHT,
+          _index: w
+        });
+
+      }
+      else
+      {
+        annotations[w] = null;
+      }
+    }
+
+    mapView.setAnnotations(filteredAnnotations());
+  }
 
   return view;
 }

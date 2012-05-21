@@ -48,7 +48,6 @@ Project.Utils = {
   timeAgo: function(distanceMillis)
   {
     var _settings = {
-      refreshMillis: 10,
       allowFuture: false,
       strings: {
         prefixAgo: "",
@@ -161,5 +160,50 @@ Project.Utils = {
 
       xhr.send();
     }
+  },
+
+
+  /**
+   * Calculates distance between two coordinates in kilometers
+   *
+   * @param p1 {lat: degrees, lon: degrees}
+   * @param p2 {lat: degrees, lon: degrees}
+   */
+  geoDistance: function(p1, p2, units)
+  {
+    var r = 6372.8;
+    var gr = 180 / Math.PI;
+
+    // http://en.wikipedia.org/wiki/Great-circle_distance
+    // Vicenty's formula
+
+    // alt
+    // var ds = Math.acos(Math.sin(p1.lat) * Math.sin(p2.lat) +
+    //    Math.cos(p1.lat) * Math.cos(p2.lat) * Math.cos(p2.lon - p1.lon));
+
+    var dLon = (p2.lon - p1.lon) / gr;
+    var a = Math.pow(Math.cos(p2.lat / gr) * Math.sin(dLon), 2);
+    var b = Math.pow(Math.cos(p1.lat / gr) * Math.sin(p2.lat / gr) - Math.sin(p1.lat / gr) *
+      Math.cos(p2.lat / gr) * Math.cos(dLon), 2);
+    var c = Math.sin(p1.lat / gr) * Math.sin(p2.lat / gr) + Math.cos(p1.lat / gr) *
+      Math.cos(p2.lat / gr) * Math.cos(dLon);
+    var ds = Math.atan2(Math.sqrt(a +b), c);
+    var d = r * ds;
+
+    if (units == 'mi') d /= 1.609344; // mile
+    else if (units == 'nmi') d /= 1.85200; // nautical mile
+    else if (units == 'm') d *= 1000;
+
+    return d;
+  },
+
+  count: function(objOrArray)
+  {
+    var c = 0;
+
+    for (var i in objOrArray)
+      c++;
+
+    return c;
   }
 }

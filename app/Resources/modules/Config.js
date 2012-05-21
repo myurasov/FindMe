@@ -23,6 +23,12 @@ Project.Config = new mym.Configuration({
   askedForRatingYes: 0,
   askedForRatingDone: 0,
 
+  // ignored client uids
+  ignoredClientUIDs: [],
+
+  // watchers
+  watchers: [],
+
   // title bar bg color
   _barColor: '#34b6d4',
 
