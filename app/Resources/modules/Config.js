@@ -7,7 +7,7 @@ Project.Config = new mym.Configuration({
   channel: Project.Utils.createUID(7),
 
   // timeout to publish messages
-  publishTimeout: 15, // [s]
+  publishTimeout: 10, // [s]
 
   // proximity sensor
   proximitySensor: true,

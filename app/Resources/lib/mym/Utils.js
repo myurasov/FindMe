@@ -97,5 +97,20 @@ mym.Utils = {
   formatCurreny: function(number)
   {
     return mym.Utils.round(number, 2).toFixed(2);
-  }
+  },
+
+  /**
+   * Get screen height for the current orientation
+   */
+  getScreenHeight: function(orientation) {
+    if (orientation == "landscape") {
+      return Math.min(Ti.Platform.displayCaps.platformWidth, Ti.Platform.displayCaps.platformHeight)
+    }
+    else if (orientation == "portrait") {
+      return Math.max(Ti.Platform.displayCaps.platformWidth, Ti.Platform.displayCaps.platformHeight)
+    }
+    else if (orientation === undefined) {
+      return Ti.Platform.displayCaps.platformHeight;
+    }
+  },
 }

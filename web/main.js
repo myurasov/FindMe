@@ -1,3 +1,10 @@
+if (undefined === console)
+{
+  console = {
+    log: function(){}
+  }
+}
+
 var findme = function()
 {
   var self = this;
@@ -13,10 +20,10 @@ var findme = function()
   {
     // get channel
 
-    channel = window.location.pathname.substr(1);
+  channel = window.location.search.substr(1); // ?channel
 
-    if (channel.length == 0)
-      channel = window.location.search.substr(1);
+  if (channel == '')
+    channel = window.location.pathname.substr(1); // /channel
 
     // get cliend uid
 
@@ -158,7 +165,6 @@ var findme = function()
         message: message
     });
   };
-
   /**
    * Update freshness message
    */

@@ -31,7 +31,8 @@ Project.UI.createMainWindow = function()
       rightNavButton: settingsButton,
       barImage: "images/bar-main.png",
       barColor: Project.Config.get('_barColor'),
-      backgroundColor: "white"
+      backgroundImage: "images/bg.png",
+      backgroundRepeat: true
     });
 
     //
@@ -45,7 +46,7 @@ Project.UI.createMainWindow = function()
       animate: true,
       regionFit: true,
       userLocation: true,
-      height: 246 + 65,
+      height: mym.Utils.getScreenHeight("portrait") - 169,
       top: 10,
       left: 10,
       width: 300,
@@ -95,15 +96,20 @@ Project.UI.createMainWindow = function()
 
     view.add(tableView = Ti.UI.createTableView({
       style: Titanium.UI.iPhone.TableViewStyle.GROUPED,
-       backgroundImage: "images/bg.png",
-       backgroundRepeat: true,
-       top: 0
+      backgroundColor: "transparent",
+      top: 0
     }));
 
     tableViewSection1.add(shareRow = Ti.UI.createTableViewRow({
       title: "Share",
-      hasChild: true
+      hasChild: true,
+      backgroundColor: "white"
     }));
+
+//    tableViewSection1.add(Ti.UI.createTableViewRow({
+//      title: "Watchers",
+//      hasChild: true
+//    }));
 
     // header
 
@@ -230,8 +236,9 @@ Project.UI.createMainWindow = function()
     Project.application.messenger.addEventListener("feedbackMessage", onFeedbackMessage);
 
     footerView.addEventListener("click", function(e){
-      if (e.source == urlLabel)
+      if (e.source == urlLabel) {
         Ti.Platform.openURL(Project.application.getLink());
+      }
     });
 
     refresh.addEventListener("click", resetLink);
@@ -334,7 +341,7 @@ Project.UI.createMainWindow = function()
 
         if (e.index == 0)
         {
-          Ti.Platform.openURL('http://maps.google.com/?q=' +
+          Ti.Platform.openURL('http://maps.apple.com/?q=' +
             annotation.latitude + ',' + annotation.longitude);
         }
         else if (e.index == 1)

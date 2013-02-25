@@ -232,7 +232,7 @@ Project.Application = function()
   /**
  * Get link to web app
  */
-  self.getLink = function(shortLink)
+  self.getLink = function (shortLink)
   {
     if (shortLink == undefined)
       shortLink = false;
@@ -262,12 +262,12 @@ Project.Application = function()
       if (email !== undefined)
         emailDialog.toRecipients = [email];
 
-      emailDialog.subject = "Find me!";
+      emailDialog.subject = "I'm on My Way!";
       emailDialog.html = true;
 
       var body = (name === undefined ? '' : "Hi, " + name + "!<br><br>") + "Follow my location @ <br>" +
       "<a href='" + self.getLink() + "'>" + self.getLink(true) + "</a><br><br>" +
-      "Powered by <a href='" + self.getiTunesUrl() + "'>FindMe! App</a>";
+      "Powered by <a href='" + self.getiTunesUrl() + "'>onmyway app</a>";
 
       emailDialog.messageBody = body;
       emailDialog.open();

@@ -1,0 +1,20 @@
+#!/bin/bash
+
+root="/Projects/Profolio"
+
+# create retina styles
+echo "Creating retina styles..."
+
+php createRetinaStyles.php \
+ "${root}/app/Resources/modules/UI/Timeline/main.css" \
+  > "${root}/app/Resources/modules/UI/Timeline/retina.css"
+
+php createRetinaStyles.php \
+ "${root}/app/Resources/modules/UI/Gallery/main.css" \
+  > "${root}/app/Resources/modules/UI/Gallery/retina.css"
+
+# downsize 2x images
+echo "Downsizing 2x images..."
+
+./downsize ${root}/app/Resources/images
+./downsize ${root}/app/Resources/iphone

@@ -11,7 +11,7 @@ body, html {
 }
 
 #header {
-  padding: 10px 0px 10px 0px;
+  padding: 7px 0px 7px 0px;
   font-size: 20px;
   position: fixed;
   z-index: 1;
@@ -23,39 +23,55 @@ body, html {
 
 #address {
   float: left;
-  margin-left: 10px;
   overflow: hidden;
   text-overflow: ellipsis;
+  line-height: 42px;
+  margin: 0px 0px 0px 7px;
 }
 
 #ago {
   float: right;
-  margin-right: 10px;
   overflow: hidden;
   text-overflow: ellipsis;
   color: gray;
+  line-height: 42px;
+  margin: 0px 7px 0px 0px;
 }
 
 #dist {
   margin-right: 7px;
-  display: inline-block;
   padding: 3px 5px 3px 5px;
   background-color: #EEE;
   border-radius: 3px;
   color: #444;
+  display: inline;
 }
 
-@media only screen
-and (min-device-width : 320px)
-and (max-device-width : 480px) {
-  #address {
-    float: none;
-    font-size: 18px;
-  }
+@media all
+and (max-width : 800px) {
   #ago {
     float: none;
     margin-right: 0px;
-    margin-left: 10px;
+    margin-left: 7px;
+    clear: left;
+  }
+}
+
+@media only screen
+and (max-width : 480px) {
+/*and (min-device-width : 320px)
+and (max-device-width : 480px) {*/
+  #address {
+    float: none;
+    font-size: 18px;
+    line-height: 25px;
+    margin: 5px 0px 0px 5px;
+  }
+  #ago {
+    float: none;
+    margin: 0px 0px 3px 5px;
     font-size: 12px;
+    line-height: 20px;
+    clear: left;
   }
 }

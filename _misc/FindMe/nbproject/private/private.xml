@@ -2,21 +2,90 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/1">
         <file>
+            <url>file:/Volumes/Documents/Projects/FindMe/app/Resources/modules/UI.MainWindow.js</url>
+            <line>305</line>
+            <line>414</line>
+        </file>
+        <file>
             <url>file:/Volumes/Documents/Projects/HackathlonApp/_dev/mySpireio.js</url>
             <line>104</line>
         </file>
         <file>
             <url>file:/Volumes/Documents/Projects/FindMe/app/Resources/modules/Application.js</url>
-            <line>82</line>
-            <line>204</line>
+            <line>84</line>
+            <line>206</line>
+        </file>
+        <file>
+            <url>file:/Volumes/Documents/Projects/FindMe/web/main.js</url>
+            <line>160</line>
+        </file>
+        <file>
+            <url>file:/Volumes/Documents/Projects/FindMe/app/Resources/lib/mym/UI/UI.AdsHostWindow.js</url>
+            <line>18</line>
         </file>
         <file>
             <url>file:/Volumes/Documents/Projects/HackathlonApp/app/Resources/modules/UI.MainWindow.js</url>
             <line>213</line>
         </file>
+    </editor-bookmarks>
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="1">
+        <file>
+            <url>file:/Volumes/Documents/Projects/HackathlonApp/_dev/mySpireio.js</url>
+            <bookmark id="0">
+                <name/>
+                <line>104</line>
+                <key/>
+            </bookmark>
+        </file>
         <file>
             <url>file:/Volumes/Documents/Projects/FindMe/app/Resources/lib/mym/UI/UI.AdsHostWindow.js</url>
-            <line>18</line>
+            <bookmark id="0">
+                <name/>
+                <line>18</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>file:/Volumes/Documents/Projects/FindMe/app/Resources/modules/UI.MainWindow.js</url>
+            <bookmark id="1">
+                <name/>
+                <line>239</line>
+                <key/>
+            </bookmark>
+            <bookmark id="0">
+                <name/>
+                <line>312</line>
+                <key/>
+            </bookmark>
+            <bookmark id="0">
+                <name/>
+                <line>421</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>file:/Volumes/Documents/Projects/FindMe/app/Resources/modules/Application.js</url>
+            <bookmark id="0">
+                <name/>
+                <line>206</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>file:/Volumes/Documents/Projects/FindMe/web/main.js</url>
+            <bookmark id="0">
+                <name/>
+                <line>160</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>file:/Volumes/Documents/Projects/HackathlonApp/app/Resources/modules/UI.MainWindow.js</url>
+            <bookmark id="0">
+                <name/>
+                <line>213</line>
+                <key/>
+            </bookmark>
         </file>
     </editor-bookmarks>
 </project-private>

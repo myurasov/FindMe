@@ -7,14 +7,14 @@
         <target device="android">false</target>
         <target device="blackberry">false</target>
     </deployment-targets>
-    <sdk-version>2.0.1.GA2</sdk-version>
-    <id>me.yurasov.findme</id>
+    <sdk-version>3.0.0.GA</sdk-version>
+    <id>me.yurasov.iamonmyway</id>
     <name>FindMe</name>
-    <version>1.1</version>
+    <version>1.2</version>
     <publisher>mym</publisher>
     <url>http://apps.yurasov.me/</url>
     <description>Share your real-time location with anyone and know where they are too!</description>
-    <copyright>2012, Miklhal Yurasov</copyright>
+    <copyright>2012-2013, Miklhal Yurasov</copyright>
     <icon>appicon.png</icon>
     <persistent-wifi>false</persistent-wifi>
     <prerendered-icon>true</prerendered-icon>

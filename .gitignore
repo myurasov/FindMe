@@ -2,3 +2,9 @@ tmp
 app/build
 .DS_Store
 web/index.html
+
+web/index.html
+
+_misc/FindMe/nbproject/private/private.xml
+
+app/.settings/

@@ -1,0 +1,8 @@
+#!/bin/bash
+
+for f in `find "$1" -name "*@2x*.png"`;
+do
+  f1x=`echo "$f" | sed "s/@2x//"`
+  echo "Downsizing $f ..."
+  convert $f -resize 50%% -set colorspace RGB $f1x
+done

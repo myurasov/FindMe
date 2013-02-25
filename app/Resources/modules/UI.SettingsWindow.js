@@ -19,15 +19,16 @@ Project.UI.createSettingsWindow = function()
     view = Ti.UI.createWindow({
       title: 'Settings',
       barImage: "images/bar.png",
-      barColor: Project.Config.get('_barColor')
+      barColor: Project.Config.get('_barColor'),
+      backgroundImage: "images/bg.png",
+      backgroundRepeat: true
     });
 
     //
 
     view.add(tableView = Ti.UI.createTableView({
       style: Titanium.UI.iPhone.TableViewStyle.GROUPED,
-       backgroundImage: "images/bg.png",
-       backgroundRepeat: true
+      backgroundColor: "transparent"
     }));
 
     // Location update
@@ -41,6 +42,7 @@ Project.UI.createSettingsWindow = function()
     var r;
 
     s1.add(r = Ti.UI.createTableViewRow({
+      backgroundColor: "white",
       title: 'Location update interval'
     }));
 
@@ -51,9 +53,11 @@ Project.UI.createSettingsWindow = function()
       right: 10,
       width: 100,
       height: 44
-    }))
+    }));
 
-    s1.add(r = Ti.UI.createTableViewRow());
+    s1.add(r = Ti.UI.createTableViewRow({
+      backgroundColor: "white"
+    }));
 
     r.add(sliderInterval = Ti.UI.createSlider({
       left: 10,
@@ -77,7 +81,8 @@ Project.UI.createSettingsWindow = function()
 
     s2.add(r = Ti.UI.createTableViewRow({
       title: 'Use proximity sensor',
-      height: 44
+      height: 44,
+      backgroundColor: "white"
     }));
 
     r.add(switchProx = Titanium.UI.createSwitch({
@@ -96,6 +101,7 @@ Project.UI.createSettingsWindow = function()
 
     r = Ti.UI.createTableViewRow({
       title: 'Background service',
+      backgroundColor: "white",
       height: 44
     });
 
@@ -111,14 +117,17 @@ Project.UI.createSettingsWindow = function()
     var s4 = Ti.UI.createTableViewSection();
 
     s4.add(rowHelp = Ti.UI.createTableViewRow({
+      backgroundColor: "white",
       title: "Help..."
     }));
 
     s4.add(rowSupport = Ti.UI.createTableViewRow({
+      backgroundColor: "white",
       title: "Support..."
     }));
 
     s4.add(rowAbout = Ti.UI.createTableViewRow({
+      backgroundColor: "white",
       title: "About..."
     }));
 
@@ -154,7 +163,7 @@ Project.UI.createSettingsWindow = function()
 
     rowAbout.addEventListener("click", function(e){
       var alertBox = Titanium.UI.createAlertDialog({
-        title: Ti.App.name + " " + Ti.App.version,
+        title: "onMyWay " + Ti.App.version,
         message: "© " + Ti.App.copyright
       });
       alertBox.show();
@@ -169,7 +178,7 @@ Project.UI.createSettingsWindow = function()
     });
 
     view.addEventListener("open", function(){
-      Project.application.mainWindow.setTitle('Find me!')
+      Project.application.mainWindow.setTitle("Back")
     });
 
     view.addEventListener("blur", function(){

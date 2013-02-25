@@ -1,0 +1,6 @@
+#!/bin/bash
+
+root="/Projects/Profolio"
+
+cd ${root}
+ctags -R --exclude="app/build" -f ${root}/.tags
