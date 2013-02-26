@@ -245,7 +245,7 @@ Project.Application = function()
    */
   self.getiTunesUrl = function()
   {
-    var appUrl = "http://itunes.apple.com/us/app/id524261279?l={locale}&ls=1&mt=8";
+    var appUrl = "http://itunes.apple.com/us/app/id608849591?l={locale}&ls=1&mt=8";
     appUrl = appUrl.replace("{locale}", Titanium.Platform.locale);
     return appUrl;
   }
@@ -274,7 +274,10 @@ Project.Application = function()
     }
     else // Email is not supported
     {
-      mym.Utils.alert("Unable to send email.\nPehaps you have not set up a email acount?");
+      mym.Utils.alert(
+        "Unable to send email.\nPehaps you have not set up a email acount?",
+        Project.Config.get("appName")
+      );
     }
   }
 
@@ -299,7 +302,7 @@ Project.Application = function()
     }
     else
     {
-      mym.Utils.alert("Your device doesn't support SMS");
+      mym.Utils.alert("Your device doesn't support SMS", Project.Config.get("appName") );
     }
   }
 }

@@ -29,6 +29,8 @@ Project.Config = new mym.Configuration({
   // watchers
   watchers: [],
 
+  appName: "onmyway",
+
   // title bar bg color
   _barColor: '#34b6d4',
 

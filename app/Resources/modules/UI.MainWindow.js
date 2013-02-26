@@ -492,7 +492,7 @@ Project.UI.createMainWindow = function()
   function resetLink()
   {
     var alertBox = Titanium.UI.createAlertDialog({
-      title: Ti.App.getName(),
+      title: Project.Config.get("appName"),
       message: "Update the sharing link?",
       buttonNames: ['Update', 'Keep']
     });

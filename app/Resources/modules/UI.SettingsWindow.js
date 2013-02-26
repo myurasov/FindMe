@@ -13,6 +13,7 @@ Project.UI.createSettingsWindow = function()
   var rowSupport;
   var rowAbout;
   var rowHelp;
+  var rowRate;
 
   function _createView()
   {
@@ -115,25 +116,32 @@ Project.UI.createSettingsWindow = function()
     //
 
     var s4 = Ti.UI.createTableViewSection();
-
-    s4.add(rowHelp = Ti.UI.createTableViewRow({
+    s4.add(rowRate = Ti.UI.createTableViewRow({
       backgroundColor: "white",
-      title: "Help..."
+      title: "Rate"
     }));
-
     s4.add(rowSupport = Ti.UI.createTableViewRow({
       backgroundColor: "white",
-      title: "Support..."
-    }));
-
-    s4.add(rowAbout = Ti.UI.createTableViewRow({
-      backgroundColor: "white",
-      title: "About..."
+      title: "Get support"
     }));
 
     //
 
-    tableView.setData([s1, s2, s3, s4]);
+    var s5 = Ti.UI.createTableViewSection();
+
+    s5.add(rowHelp = Ti.UI.createTableViewRow({
+      backgroundColor: "white",
+      title: "Help"
+    }));
+
+    s5.add(rowAbout = Ti.UI.createTableViewRow({
+      backgroundColor: "white",
+      title: "About"
+    }));
+
+    //
+
+    tableView.setData([s1, s2, s3, s4, s5]);
   }
 
   function _attachEvents()
@@ -163,26 +171,44 @@ Project.UI.createSettingsWindow = function()
 
     rowAbout.addEventListener("click", function(e){
       var alertBox = Titanium.UI.createAlertDialog({
-        title: "onMyWay " + Ti.App.version,
+        title: Project.Config.get("appName") + " " + Ti.App.version,
         message: "© " + Ti.App.copyright
       });
       alertBox.show();
     });
 
     rowSupport.addEventListener("click", function(e){
-      Ti.Platform.openURL(Ti.App.url);
+
+        var emailDialog = Titanium.UI.createEmailDialog();
+
+        if (emailDialog.isSupported()) {
+          emailDialog.toRecipients = ["onmyway@yurasov.me"];
+          emailDialog.subject = "App Support - onmyway";
+          emailDialog.html = false;
+          emailDialog.open();
+        }
+
     });
 
     rowHelp.addEventListener("click", function(){
       Ti.Platform.openURL(Project.Config.get('_helpUrl'));
     });
 
+    rowRate.addEventListener("click", function(){
+      Ti.Platform.openURL(Project.application.getiTunesUrl());
+      Project.Config.set("askedForRatingDone", 1).save();
+    });
+
     view.addEventListener("open", function(){
       Project.application.mainWindow.setTitle("Back")
     });
 
+    view.addEventListener("focus", function(){
+      Project.application.mainWindow.setTitle("Back")
+    });
+
     view.addEventListener("blur", function(){
-      Project.application.mainWindow.setTitle(' ')
+      Project.application.mainWindow.setTitle(" ")
     });
   }
 
