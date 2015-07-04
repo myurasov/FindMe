@@ -22,7 +22,9 @@ Project.UI.createSettingsWindow = function()
       barImage: "images/bar.png",
       barColor: Project.Config.get('_barColor'),
       backgroundImage: "images/bg.png",
-      backgroundRepeat: true
+      backgroundRepeat: true,
+      barTintColor: '#fff',
+      navTintColor: '#fff'
     });
 
     //

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-server=ec2-micro-1
+server=ec2-3
 
 # Preprocess
 php pasteRes.php ../web/index-dev.html > ../web/index.html

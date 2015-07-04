@@ -46,20 +46,10 @@
             </bookmark>
         </file>
         <file>
-            <url>file:/Volumes/Documents/Projects/FindMe/app/Resources/modules/UI.MainWindow.js</url>
-            <bookmark id="1">
-                <name/>
-                <line>239</line>
-                <key/>
-            </bookmark>
+            <url>file:/Volumes/Documents/Projects/HackathlonApp/app/Resources/modules/UI.MainWindow.js</url>
             <bookmark id="0">
                 <name/>
-                <line>312</line>
-                <key/>
-            </bookmark>
-            <bookmark id="0">
-                <name/>
-                <line>421</line>
+                <line>213</line>
                 <key/>
             </bookmark>
         </file>
@@ -77,18 +67,28 @@
             </bookmark>
         </file>
         <file>
-            <url>file:/Volumes/Documents/Projects/FindMe/web/main.js</url>
+            <url>file:/Volumes/Documents/Projects/FindMe/app/Resources/modules/UI.MainWindow.js</url>
+            <bookmark id="1">
+                <name/>
+                <line>241</line>
+                <key/>
+            </bookmark>
             <bookmark id="0">
                 <name/>
-                <line>160</line>
+                <line>314</line>
+                <key/>
+            </bookmark>
+            <bookmark id="0">
+                <name/>
+                <line>423</line>
                 <key/>
             </bookmark>
         </file>
         <file>
-            <url>file:/Volumes/Documents/Projects/HackathlonApp/app/Resources/modules/UI.MainWindow.js</url>
+            <url>file:/Volumes/Documents/Projects/FindMe/web/main.js</url>
             <bookmark id="0">
                 <name/>
-                <line>213</line>
+                <line>160</line>
                 <key/>
             </bookmark>
         </file>

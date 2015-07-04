@@ -165,7 +165,8 @@ Project.Application = function()
   self.startGeolocation = function()
   {
     if (geolocationStarted) return;
-      geolocationStarted = true;
+
+    geolocationStarted = true;
 
     Ti.Geolocation.purpose = "Geolocation";
     Ti.Geolocation.preferredProvider = "gps";

@@ -126,6 +126,8 @@ Project.Utils = {
       var url = "http://maps.google.com/maps/geo?q={lat}%2C{lon}&output=json&oe=utf8"+
       "&key=ABQIAAAAPbc5fpwBCOuhSf4eK_srOhTae0RBrawVYDs3Fc0CWE-xTYhALhSGfRvFU9oMxGDRbITRcgIk60j8CA&{rnd}";
 
+      url = 'http://maps.googleapis.com/maps/api/geocode/json?latlng={lat},{lon}&sensor=true';
+
       url = url.replace("{rnd}", Math.random());
       url = url.replace("{lat}", lat);
       url = url.replace("{lon}", lon);
@@ -140,9 +142,9 @@ Project.Utils = {
 
         var data = JSON.parse(xhr.responseText);
 
-        if (typeof data.Placemark != "undefined")
+        if (typeof data.results != "undefined")
         {
-          var address = data.Placemark[0].address;
+          var address = data.results[0].formatted_address;
 
           if (doneCallback != undefined)
             doneCallback(address);

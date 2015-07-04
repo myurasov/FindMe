@@ -23,7 +23,7 @@ Project.UI.createMainWindow = function()
   function _init()
   {
     settingsButton = Ti.UI.createButton({
-      image:'images/settings-button.png'
+      image: 'images/settings-button.png',
     });
 
     view = Ti.UI.createWindow({
@@ -32,7 +32,9 @@ Project.UI.createMainWindow = function()
       barImage: "images/bar-main.png",
       barColor: Project.Config.get('_barColor'),
       backgroundImage: "images/bg.png",
-      backgroundRepeat: true
+      backgroundRepeat: true,
+      barTintColor: '#fff',
+      navTintColor: '#fff'
     });
 
     //
@@ -46,7 +48,7 @@ Project.UI.createMainWindow = function()
       animate: true,
       regionFit: true,
       userLocation: true,
-      height: mym.Utils.getScreenHeight("portrait") - 169,
+      height: mym.Utils.getScreenHeight("portrait") - 169 - 20,
       top: 10,
       left: 10,
       width: 300,
@@ -136,7 +138,7 @@ Project.UI.createMainWindow = function()
     })
 
     var hdr = Ti.UI.createView({
-      height: mapView.height + mapView.top
+      height: mapView.height + mapView.top + 20
     });
 
     labelHost.add(addressLabel);

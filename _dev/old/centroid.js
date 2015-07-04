@@ -1,4 +1,4 @@
-  centroid: function (points)
+  function centroid  (points)
   {
     var A = 0, Cx = 0, Cy = 0;
     var Sa = 0, Sx = 0, Sy = 0;
@@ -16,4 +16,4 @@
     Cy = (1 / (6 * A)) * Sy;
 
     return [Cx,Cy];
-  },
+  }
