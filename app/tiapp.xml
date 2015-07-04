@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ti:app xmlns:ti="http://ti.appcelerator.org">
     <deployment-targets>
+        <target device="tizen">false</target>
         <target device="mobileweb">false</target>
         <target device="iphone">true</target>
         <target device="ipad">false</target>
         <target device="android">false</target>
         <target device="blackberry">false</target>
     </deployment-targets>
-    <sdk-version>3.0.0.GA</sdk-version>
+    <sdk-version>3.1.3.GA</sdk-version>
     <id>me.yurasov.iamonmyway</id>
     <name>FindMe</name>
-    <version>1.2.1</version>
+    <version>1.3</version>
     <publisher>mym</publisher>
     <url>http://apps.yurasov.me/</url>
     <description>Share your real-time location with anyone and know where they are too!</description>
@@ -36,4 +37,12 @@
     <modules>
         <module platform="iphone" version="0.2">com.omorandi</module>
     </modules>
+    <ios>
+        <plist>
+            <dict>
+                <key>UIStatusBarStyle</key>
+                <string>UIStatusBarStyleLightContent</string>
+            </dict>
+        </plist>
+    </ios>
 </ti:app>
